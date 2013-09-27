@@ -2,44 +2,45 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Dojo Examples</title>
-	
-	<style type="text/css">
-    .highlight{
-    	background-color: red;
-
-    }
-
-	</style>
+	<title>Dojo Demos - Add & Remove Inputs</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
   <button id="AddMoreFileBox" class="btn btn-info">ADD</button>
 	<div id="InputsWrapper">
-<div><input type="text" name="mytext[]" id="field_1" value="Text 1"><!-- <a href="#" id="removeclass">×</a> --></div>
+<div><input type="text" name="mytext[]" id="field_1" value="Text 1"><a href="#" class="removeclass">×</a></div>
 </div>
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
 <script>
-	require(["dojo/on", "dojo/dom", "dojo/domReady!"], function(/* html - what is it? */ on, dom){
-		 var maxInputs = 12;
-		 var x = dojo.query('#InputsWrapper').length;
-		 var Count = 1;
-		 on(dojo.byId('AddMoreFileBox'), "click", function(e){
+	require([
+        "dojo/on", 
+        "dojo/dom", 
+        "dojo/NodeList-traverse", 
+        "dojo/domReady!"
+    ], function(on, dom){
+     var maxInputs = 12;
+     var x = dojo.query('#InputsWrapper').length;
+     var Count = 1;
+     on(dojo.byId('AddMoreFileBox'), "click", function(e){
                 if(x <= maxInputs){
-       	Count++;
+        Count++;
+      
         var div = document.createElement('div')
         div.innerHTML = '<input type="text" name="mytext[]" id="field_'+ Count +'" value="Text '+ Count +'"/><a href="#" class="removeclass">&times;</a>'
-       	dojo.query('#InputsWrapper')[0].appendChild(div);
-       	x++;
+        dojo.query('#InputsWrapper')[0].appendChild(div);
+        x++;
        }
-		 });
-    on(dojo.byId(".removeclass"), "click", function(e){
-	if(x > 1){
-        dojo.query(this).parent('div').destroy();
+     });
+
+        on(dojo.byId('InputsWrapper'), ".removeclass:click", function(e){
+  if(x > 1){
+        var div = dojo.query(this).parent('div')[0]
+        dojo.byId('InputsWrapper').removeChild(div)
         x--;
         }
         return false;
   });
-	});
+  });
 	</script>
 </html>
